@@ -3,6 +3,7 @@ package com.gotourntravels.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gotourntravels.models.Payment
+import com.gotourntravels.network.dto.RazorpayOrder
 import com.gotourntravels.repository.GoTourRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +24,8 @@ class PaymentsViewModel @Inject constructor(private val repo: GoTourRepository) 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
 
-    private val _order = MutableStateFlow<com.gotourntravels.network.RazorpayOrder?>(null)
-    val order: StateFlow<com.gotourntravels.network.RazorpayOrder?> = _order.asStateFlow()
+    private val _order = MutableStateFlow<RazorpayOrder?>(null)
+    val order: StateFlow<RazorpayOrder?> = _order.asStateFlow()
 
     private val _payment = MutableStateFlow<Payment?>(null)
     val payment: StateFlow<Payment?> = _payment.asStateFlow()

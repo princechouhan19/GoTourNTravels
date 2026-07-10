@@ -7,9 +7,9 @@ import com.gotourntravels.models.BusinessSettings
 import com.gotourntravels.models.DashboardStats
 import com.gotourntravels.models.Review
 import com.gotourntravels.models.User
+import com.gotourntravels.models.Vehicle
 import com.gotourntravels.network.dto.BookingDayStat
 import com.gotourntravels.network.dto.RevenueByType
-import com.gotourntravels.network.dto.Vehicle
 import com.gotourntravels.repository.GoTourRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -75,6 +75,12 @@ class AdminViewModel @Inject constructor(private val repo: GoTourRepository) : V
 
     fun loadReviews() {
         viewModelScope.launch { try { _reviews.value = repo.listReviews() } catch (e: Exception) { _error.value = e.message } }
+    }
+
+    fun updateReview(id: String, approved: Boolean, featured: Boolean, reply: String) {
+        viewModelScope.launch {
+            try { repo.updateReview(id, approved, featured, reply); loadReviews() } catch (e: Exception) { _error.value = e.message }
+        }
     }
 
     fun loadAds() {
