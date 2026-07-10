@@ -169,9 +169,10 @@ private fun PriceLine(label: String, value: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DatePickerModal(initial: Long, onConfirm: (Long) -> Unit) {
-    val dpState = rememberDatePickerState(initialMillis = initial)
+    val dpState = rememberDatePickerState(initialSelectedDateMillis = initial)
     AlertDialog(
         onDismissRequest = { onConfirm(initial) },
         confirmButton = {
