@@ -1,18 +1,19 @@
 *.iml
 .gradle
+.kotlin/
 /local.properties
-/.idea
+/.idea/
 .DS_Store
-/build
+/build/
 /captures
 .externalNativeBuild
 .cxx
-local.properties
 *.apk
 *.aab
 *.keystore
 
-# Project exclude paths
-/app/
-/backend/
-/gradle/
+# Built artifacts
+**/build/
+
+# Local config
+local.properties

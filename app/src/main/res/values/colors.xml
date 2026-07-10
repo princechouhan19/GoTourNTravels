@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Royal Rajasthan palette -->
+    <color name="maroon">#8B1E3F</color>
+    <color name="maroon_dark">#6B1530</color>
+    <color name="gold">#D4A437</color>
+    <color name="gold_light">#E8C879</color>
+    <color name="cream">#FFF8E7</color>
+    <color name="cream_dark">#F2E7C9</color>
+    <color name="ink">#1A0F12</color>
+    <color name="ink_muted">#5F4A50</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="green">#1B7A3D</color>
+    <color name="red">#D32F2F</color>
+    <color name="amber">#F59E0B</color>
+
+    <!-- Status colors -->
+    <color name="status_available">#1B7A3D</color>
+    <color name="status_on_rent">#F59E0B</color>
+    <color name="status_maintenance">#6B7280</color>
+</resources>

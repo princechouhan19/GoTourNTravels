@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Go Tour N Travels</string>
+    <string name="business_name">Go Tour N Travels</string>
+    <string name="tagline">Your trusted travel partner in Mount Abu</string>
+
+    <!-- Nav -->
+    <string name="nav_home">Home</string>
+    <string name="nav_bookings">Bookings</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Common -->
+    <string name="action_retry">Retry</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_book_now">Book Now</string>
+
+    <!-- Permissions -->
+    <string name="perm_location_rationale">Location permission is required to find nearby vehicles and to track active rentals.</string>
+    <string name="perm_notification_rationale">Notifications are required to send booking updates and SOS alerts.</string>
+
+    <!-- Tracking service -->
+    <string name="tracking_channel_name">Rental Tracking</string>
+    <string name="tracking_channel_desc">Shows live tracking during active bookings</string>
+    <string name="tracking_notification_title">Rental in progress</string>
+    <string name="tracking_notification_text">Go Tour N Travels is tracking your rental location</string>
+
+    <!-- SOS -->
+    <string name="sos_channel_name">SOS Alerts</string>
+    <string name="sos_channel_desc">Emergency alerts to business and emergency services</string>
+
+    <!-- Generic channels -->
+    <string name="general_channel_name">Go Tour Notifications</string>
+    <string name="general_channel_desc">Booking, payment and promotional notifications</string>
+</resources>

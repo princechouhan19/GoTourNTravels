@@ -1,0 +1,22 @@
+{
+  "_comment": "Placeholder google-services.json. Download the real file from Firebase Console and replace this file before building release.",
+  "project_info": {
+    "project_number": "000000000000",
+    "project_id": "gotourntravels",
+    "storage_bucket": "gotourntravels.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:000000000000:android:0000000000000000000000",
+        "android_client_info": {
+          "package_name": "com.gotourntravels"
+        }
+      },
+      "api_key": [
+        { "current_key": "AIzaSyPLACEHOLDER_REPLACE_WITH_REAL_KEY" }
+      ]
+    }
+  ],
+  "configuration_version": "1"
+}
