@@ -10,6 +10,7 @@ data class User(
     val role: String = "customer",
     val avatar: String = "",
     val isVerified: Boolean = false,
+    val isBlocked: Boolean = false,
     val drivingLicense: DrivingLicense? = null,
     val preferences: UserPreferences = UserPreferences(),
     val addresses: List<Address> = emptyList(),

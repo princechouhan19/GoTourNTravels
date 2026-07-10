@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.gotourntravels.ui.components.*
+import com.gotourntravels.ui.theme.Gold
 import com.gotourntravels.viewmodel.AdminViewModel
 
 @Composable
