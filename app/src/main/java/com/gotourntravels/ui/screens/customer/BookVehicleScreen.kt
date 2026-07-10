@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.gotourntravels.ui.components.*
 import com.gotourntravels.ui.navigation.Dest
+import com.gotourntravels.ui.theme.*
 import com.gotourntravels.viewmodel.BookingViewModel
 import com.gotourntravels.viewmodel.VehiclesViewModel
 import java.text.SimpleDateFormat
@@ -168,9 +169,10 @@ private fun PriceLine(label: String, value: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DatePickerModal(initial: Long, onConfirm: (Long) -> Unit) {
-    val dpState = rememberDatePickerState(initialMillis = initial)
+    val dpState = rememberDatePickerState(initialSelectedDateMillis = initial)
     AlertDialog(
         onDismissRequest = { onConfirm(initial) },
         confirmButton = {

@@ -135,7 +135,7 @@ fun LoginScreen(navController: NavController) {
 }
 
 @Composable
-private fun FilterChipItem(label: String, selected: Boolean, onClick: () -> Unit) {
+private fun RowScope.FilterChipItem(label: String, selected: Boolean, onClick: () -> Unit) {
     Surface(
         modifier = Modifier.weight(1f).padding(4.dp).clip(RoundedCornerShape(8.dp)),
         color = if (selected) Maroon else Color.Transparent,

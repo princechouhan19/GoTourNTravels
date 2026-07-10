@@ -32,4 +32,10 @@
     <!-- Generic channels -->
     <string name="general_channel_name">Go Tour Notifications</string>
     <string name="general_channel_desc">Booking, payment and promotional notifications</string>
+
+    <!-- Home-screen widget -->
+    <string name="widget_title">Go Tour N Travels</string>
+    <string name="widget_subtitle">Your trusted travel partner in Mount Abu</string>
+    <string name="widget_action">Book Now</string>
+    <string name="widget_description">Quick access to book vehicles and view your trips</string>
 </resources>

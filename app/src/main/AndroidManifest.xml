@@ -58,7 +58,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Google Maps API key — replace placeholder with real key from Google Cloud Console -->
+        <!-- Google Maps API key - replace placeholder with real key from Google Cloud Console -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_MAPS_API_KEY}" />
@@ -82,6 +82,18 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <!-- Home-screen widget -->
+        <receiver
+            android:name=".widget.TripWidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/trip_widget_info" />
+        </receiver>
 
         <!-- WorkManager initialization deferred to Hilt -->
         <provider
