@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.gotourntravels.models.*
 import com.gotourntravels.ui.components.*
 import com.gotourntravels.ui.navigation.Dest
 import com.gotourntravels.ui.theme.*

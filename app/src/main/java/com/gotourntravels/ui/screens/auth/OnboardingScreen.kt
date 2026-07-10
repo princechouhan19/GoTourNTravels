@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 
 private data class OnboardPage(val title: String, val body: String, val icon: ImageVector, val color: Color)
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen(navController: NavController) {
     val vm: AuthViewModel = hiltViewModel()

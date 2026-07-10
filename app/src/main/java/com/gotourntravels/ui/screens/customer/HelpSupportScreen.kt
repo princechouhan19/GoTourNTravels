@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -89,7 +90,7 @@ private fun HelpRow(icon: androidx.compose.ui.graphics.vector.ImageVector, label
         Icon(icon, contentDescription = null, tint = Gold)
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
-            Text(label, color = GoldLight, fontSize = androidx.compose.ui.unit.TextUnit(11, androidx.compose.ui.unit.TextUnitType.Sp))
+            Text(label, color = GoldLight, fontSize = 11.sp)
             Text(value, color = MaterialTheme.colorScheme.onPrimary, fontWeight = FontWeight.Medium)
         }
     }

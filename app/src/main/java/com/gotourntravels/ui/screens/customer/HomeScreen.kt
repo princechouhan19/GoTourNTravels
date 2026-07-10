@@ -33,6 +33,7 @@ import com.gotourntravels.ui.theme.*
 import com.gotourntravels.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(navController: NavController) {
     val vm: HomeViewModel = hiltViewModel()

@@ -158,6 +158,7 @@ data class Review(
     val title: String = "",
     val comment: String = "",
     val isApproved: Boolean = true,
+    val isFeatured: Boolean = false,
     val adminReply: String = "",
     val createdAt: String = ""
 )
