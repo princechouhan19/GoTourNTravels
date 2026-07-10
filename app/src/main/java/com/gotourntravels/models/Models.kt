@@ -227,7 +227,11 @@ data class Advertisement(
     val placement: String = "home_banner",
     val targetVehicle: String? = null,
     val isActive: Boolean = true,
-    val order: Int = 0
+    val order: Int = 0,
+    val clicks: Int = 0,
+    val impressions: Int = 0,
+    val startDate: String = "",
+    val endDate: String = ""
 )
 
 data class Place(
