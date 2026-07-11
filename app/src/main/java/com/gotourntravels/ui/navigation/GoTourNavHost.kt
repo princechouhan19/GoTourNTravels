@@ -6,6 +6,8 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ReceiptLong
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -17,12 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.gotourntravels.viewmodel.AuthViewModel
 
 @Composable
 fun GoTourNavHost(startDestination: String) {
@@ -30,13 +35,25 @@ fun GoTourNavHost(startDestination: String) {
     val backStack by navController.currentBackStackEntryAsState()
     val currentRoute = backStack?.destination?.route
 
-    val showBottomBar = currentRoute in setOf(
-        Dest.CustomerHome.route,
-        Dest.Bookings.route,
-        Dest.TouristMap.route,
-        Dest.Profile.route,
-        Dest.AdminDashboard.route
-    )
+    val authVm: AuthViewModel = hiltViewModel()
+    val user by authVm.user.collectAsStateWithLifecycle()
+    val isAdmin = user?.role == "admin"
+
+    val showBottomBar = if (isAdmin) {
+        currentRoute in setOf(
+            Dest.AdminDashboard.route,
+            Dest.AdminVehicles.route,
+            Dest.AdminBookings.route,
+            Dest.Profile.route
+        )
+    } else {
+        currentRoute in setOf(
+            Dest.CustomerHome.route,
+            Dest.Bookings.route,
+            Dest.TouristMap.route,
+            Dest.Profile.route
+        )
+    }
 
     Scaffold(
         bottomBar = {
@@ -46,18 +63,28 @@ fun GoTourNavHost(startDestination: String) {
                     contentColor = MaterialTheme.colorScheme.onSurface,
                     tonalElevation = 0.dp
                 ) {
-                    val items = listOf(
-                        Triple(Dest.CustomerHome.route, Icons.Default.Home, "Home"),
-                        Triple(Dest.Bookings.route, Icons.Default.ReceiptLong, "Bookings"),
-                        Triple(Dest.TouristMap.route, Icons.Default.Map, "Map"),
-                        Triple(Dest.Profile.route, Icons.Default.Person, "Profile")
-                    )
+                    val items = if (isAdmin) {
+                        listOf(
+                            Triple(Dest.AdminDashboard.route, Icons.Default.Dashboard, "Dashboard"),
+                            Triple(Dest.AdminVehicles.route, Icons.Default.DirectionsCar, "Vehicles"),
+                            Triple(Dest.AdminBookings.route, Icons.Default.ReceiptLong, "Bookings"),
+                            Triple(Dest.Profile.route, Icons.Default.Person, "Profile")
+                        )
+                    } else {
+                        listOf(
+                            Triple(Dest.CustomerHome.route, Icons.Default.Home, "Home"),
+                            Triple(Dest.Bookings.route, Icons.Default.ReceiptLong, "Bookings"),
+                            Triple(Dest.TouristMap.route, Icons.Default.Map, "Map"),
+                            Triple(Dest.Profile.route, Icons.Default.Person, "Profile")
+                        )
+                    }
                     items.forEach { (route, icon, label) ->
                         NavigationBarItem(
                             selected = currentRoute == route,
                             onClick = {
+                                val popDest = if (isAdmin) Dest.AdminDashboard.route else Dest.CustomerHome.route
                                 navController.navigate(route) {
-                                    popUpTo(Dest.CustomerHome.route) { saveState = true }
+                                    popUpTo(popDest) { saveState = true }
                                     launchSingleTop = true
                                     restoreState = true
                                 }

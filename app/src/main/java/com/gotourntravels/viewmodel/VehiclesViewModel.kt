@@ -230,6 +230,21 @@ class VehiclesViewModel @Inject constructor(private val repo: GoTourRepository) 
         }
     }
 
+    fun uploadVehicleImage(file: java.io.File, onSuccess: (String) -> Unit) {
+        viewModelScope.launch {
+            _loading.value = true
+            _error.value = null
+            try {
+                val res = repo.uploadImage(file)
+                onSuccess(res.url)
+            } catch (e: Exception) {
+                _error.value = e.message ?: "Upload failed"
+            } finally {
+                _loading.value = false
+            }
+        }
+    }
+
     fun delete(id: String, onDone: () -> Unit) {
         viewModelScope.launch {
             try { repo.deleteVehicle(id); onDone() } catch (e: Exception) { _error.value = e.message }
