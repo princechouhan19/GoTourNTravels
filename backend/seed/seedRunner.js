@@ -16,6 +16,8 @@ const logger = require('../utils/logger');
 const vehicles = [
   {
     name: 'Honda Activa 6G',
+    primaryImage: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85',
+    images: ['https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85'],
     type: 'activa',
     brand: 'Honda',
     model: 'Activa 6G',
@@ -37,6 +39,8 @@ const vehicles = [
   },
   {
     name: 'TVS Jupiter',
+    primaryImage: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=85',
+    images: ['https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=85'],
     type: 'scooter',
     brand: 'TVS',
     model: 'Jupiter Classic',
@@ -58,6 +62,8 @@ const vehicles = [
   },
   {
     name: 'Royal Enfield Classic 350',
+    primaryImage: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85',
+    images: ['https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85'],
     type: 'bike',
     brand: 'Royal Enfield',
     model: 'Classic 350',
@@ -79,6 +85,8 @@ const vehicles = [
   },
   {
     name: 'Bajaj Pulsar NS200',
+    primaryImage: 'https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&w=1200&q=85',
+    images: ['https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&w=1200&q=85'],
     type: 'bike',
     brand: 'Bajaj',
     model: 'Pulsar NS200',
@@ -99,6 +107,8 @@ const vehicles = [
   },
   {
     name: 'Maruti Swift Dzire',
+    primaryImage: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=85',
+    images: ['https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=85'],
     type: 'car',
     brand: 'Maruti Suzuki',
     model: 'Swift Dzire VXI',
@@ -123,6 +133,8 @@ const vehicles = [
   },
   {
     name: 'Toyota Innova Crysta',
+    primaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85',
+    images: ['https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85'],
     type: 'suv',
     brand: 'Toyota',
     model: 'Innova Crysta ZX',
@@ -147,6 +159,8 @@ const vehicles = [
   },
   {
     name: 'Maruti Ertiga',
+    primaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85',
+    images: ['https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85'],
     type: 'car',
     brand: 'Maruti Suzuki',
     model: 'Ertiga VXI',
@@ -170,6 +184,8 @@ const vehicles = [
   },
   {
     name: 'Honda Hornet 2.0',
+    primaryImage: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85',
+    images: ['https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85'],
     type: 'bike',
     brand: 'Honda',
     model: 'Hornet 2.0',
@@ -231,6 +247,11 @@ const run = async () => {
     if (!exists) {
       await Vehicle.create(v);
       logger.info(`Vehicle created: ${v.name}`);
+    } else if (v.primaryImage) {
+      await Vehicle.updateOne(
+        { registrationNumber: v.registrationNumber },
+        { $set: { primaryImage: v.primaryImage, images: v.images } }
+      );
     }
   }
   const allVehicles = await Vehicle.find();

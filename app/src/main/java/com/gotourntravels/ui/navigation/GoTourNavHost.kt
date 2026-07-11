@@ -9,11 +9,14 @@ import androidx.compose.material.icons.filled.ReceiptLong
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,7 +41,11 @@ fun GoTourNavHost(startDestination: String) {
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f),
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    tonalElevation = 0.dp
+                ) {
                     val items = listOf(
                         Triple(Dest.CustomerHome.route, Icons.Default.Home, "Home"),
                         Triple(Dest.Bookings.route, Icons.Default.ReceiptLong, "Bookings"),
@@ -56,7 +63,15 @@ fun GoTourNavHost(startDestination: String) {
                                 }
                             },
                             icon = { Icon(icon, contentDescription = label) },
-                            label = { Text(label) }
+                            label = { Text(label) },
+                            alwaysShowLabel = true,
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.colorScheme.primary,
+                                selectedTextColor = MaterialTheme.colorScheme.primary,
+                                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         )
                     }
                 }
@@ -133,6 +148,9 @@ fun GoTourNavHost(startDestination: String) {
             composable(Dest.Sos.route) { com.gotourntravels.ui.screens.customer.SosScreen(navController) }
             composable(Dest.Notifications.route) { com.gotourntravels.ui.screens.customer.NotificationsScreen(navController) }
             composable(Dest.Profile.route) { com.gotourntravels.ui.screens.customer.ProfileScreen(navController) }
+            composable(Dest.EditProfile.route) { com.gotourntravels.ui.screens.customer.EditProfileScreen(navController) }
+            composable(Dest.ChangePassword.route) { com.gotourntravels.ui.screens.customer.ChangePasswordScreen(navController) }
+            composable(Dest.SavedAddresses.route) { com.gotourntravels.ui.screens.customer.SavedAddressesScreen(navController) }
             composable(Dest.Settings.route) { com.gotourntravels.ui.screens.customer.SettingsScreen(navController) }
             composable(Dest.HelpSupport.route) { com.gotourntravels.ui.screens.customer.HelpSupportScreen(navController) }
             composable(Dest.About.route) { com.gotourntravels.ui.screens.customer.AboutScreen(navController) }

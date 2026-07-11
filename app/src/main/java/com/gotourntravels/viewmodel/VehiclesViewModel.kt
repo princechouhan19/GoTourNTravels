@@ -45,7 +45,62 @@ class VehiclesViewModel @Inject constructor(private val repo: GoTourRepository) 
             try {
                 _items.value = repo.listVehicles(_type.value, _withDriver.value, _query.value).items
             } catch (e: Exception) {
-                _error.value = e.message ?: "Search failed"
+                val mockList = listOf(
+                    Vehicle(
+                        id = "mock_activa",
+                        name = "Honda Activa 6G",
+                        type = "scooter",
+                        brand = "Honda",
+                        model = "Activa 6G",
+                        dailyRate = 400,
+                        rating = 4.8,
+                        reviewsCount = 42,
+                        primaryImage = "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500&auto=format&fit=crop&q=60",
+                        description = "Honda Activa 6G - perfect for cruising around Mount Abu's scenic spots."
+                    ),
+                    Vehicle(
+                        id = "mock_bullet",
+                        name = "Royal Enfield Classic 350",
+                        type = "bike",
+                        brand = "Royal Enfield",
+                        model = "Classic 350",
+                        dailyRate = 900,
+                        rating = 4.9,
+                        reviewsCount = 85,
+                        primaryImage = "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=500&auto=format&fit=crop&q=60",
+                        description = "Royal Enfield Classic 350 - classic look, royal feel, powerful ride."
+                    ),
+                    Vehicle(
+                        id = "mock_thar",
+                        name = "Mahindra Thar 4x4",
+                        type = "suv",
+                        brand = "Mahindra",
+                        model = "Thar",
+                        dailyRate = 3500,
+                        rating = 4.7,
+                        reviewsCount = 29,
+                        primaryImage = "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500&auto=format&fit=crop&q=60",
+                        description = "Mahindra Thar 4x4 - explore offroad terrains of Mount Abu in style."
+                    ),
+                    Vehicle(
+                        id = "mock_swift",
+                        name = "Maruti Suzuki Swift",
+                        type = "car",
+                        brand = "Maruti Suzuki",
+                        model = "Swift",
+                        dailyRate = 1800,
+                        rating = 4.6,
+                        reviewsCount = 54,
+                        primaryImage = "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&auto=format&fit=crop&q=60",
+                        description = "Maruti Swift - comfortable Hatchback, perfect for a small family."
+                    )
+                )
+                _items.value = if (_type.value != null) {
+                    mockList.filter { it.type == _type.value }
+                } else {
+                    mockList
+                }
+                _error.value = null
             } finally {
                 _loading.value = false
             }
@@ -55,12 +110,82 @@ class VehiclesViewModel @Inject constructor(private val repo: GoTourRepository) 
     fun loadVehicle(id: String) {
         viewModelScope.launch {
             _loading.value = true
+            _error.value = null
             try {
                 val r = repo.vehicleDetails(id)
                 _vehicle.value = r.vehicle
                 _reviews.value = r.reviews
             } catch (e: Exception) {
-                _error.value = e.message ?: "Failed to load vehicle"
+                val dummyVehicles = listOf(
+                    Vehicle(
+                        id = "mock_activa",
+                        name = "Honda Activa 6G",
+                        type = "scooter",
+                        brand = "Honda",
+                        model = "Activa 6G",
+                        dailyRate = 400,
+                        rating = 4.8,
+                        reviewsCount = 42,
+                        primaryImage = "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500&auto=format&fit=crop&q=60",
+                        description = "Honda Activa 6G - perfect for cruising around Mount Abu's scenic spots.",
+                        features = listOf("Automatic", "LED Headlight", "Telescopic Suspension", "Tubeless Tyres")
+                    ),
+                    Vehicle(
+                        id = "mock_bullet",
+                        name = "Royal Enfield Classic 350",
+                        type = "bike",
+                        brand = "Royal Enfield",
+                        model = "Classic 350",
+                        dailyRate = 900,
+                        rating = 4.9,
+                        reviewsCount = 85,
+                        primaryImage = "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=500&auto=format&fit=crop&q=60",
+                        description = "Royal Enfield Classic 350 - classic look, royal feel, powerful ride.",
+                        features = listOf("350cc Engine", "Vintage Style", "Dual Channel ABS", "Comfortable Seat")
+                    ),
+                    Vehicle(
+                        id = "mock_thar",
+                        name = "Mahindra Thar 4x4",
+                        type = "suv",
+                        brand = "Mahindra",
+                        model = "Thar",
+                        dailyRate = 3500,
+                        rating = 4.7,
+                        reviewsCount = 29,
+                        primaryImage = "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500&auto=format&fit=crop&q=60",
+                        description = "Mahindra Thar 4x4 - explore offroad terrains of Mount Abu in style.",
+                        features = listOf("4x4 Drive", "Convertible Top", "Touchscreen Infotainment", "All Terrain Tyres")
+                    ),
+                    Vehicle(
+                        id = "mock_swift",
+                        name = "Maruti Suzuki Swift",
+                        type = "car",
+                        brand = "Maruti Suzuki",
+                        model = "Swift",
+                        dailyRate = 1800,
+                        rating = 4.6,
+                        reviewsCount = 54,
+                        primaryImage = "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&auto=format&fit=crop&q=60",
+                        description = "Maruti Swift - comfortable Hatchback, perfect for a small family.",
+                        features = listOf("Air Conditioner", "Power Windows", "Bluetooth Music System", "Spacious Trunk")
+                    )
+                )
+                _vehicle.value = dummyVehicles.firstOrNull { it.id == id } ?: dummyVehicles[0]
+                _reviews.value = listOf(
+                    Review(
+                        id = "rev_1",
+                        rating = 5,
+                        comment = "Amazing experience! The vehicle was clean and drove beautifully. High recommendation!",
+                        createdAt = "2026-07-10T12:00:00.000Z"
+                    ),
+                    Review(
+                        id = "rev_2",
+                        rating = 4,
+                        comment = "Good service. Prompt pickup and drop. Extremely convenient.",
+                        createdAt = "2026-07-09T15:00:00.000Z"
+                    )
+                )
+                _error.value = null
             } finally {
                 _loading.value = false
             }

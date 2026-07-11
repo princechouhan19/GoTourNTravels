@@ -7,6 +7,7 @@ import com.gotourntravels.models.User
 import com.gotourntravels.repository.GoTourRepository
 import com.gotourntravels.network.dto.UpdateProfileRequest
 import com.gotourntravels.network.dto.ChangePasswordRequest
+import com.gotourntravels.models.Address
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -53,6 +54,17 @@ class ProfileViewModel @Inject constructor(
             try {
                 repo.changePassword(current, newPass)
                 _success.value = "Password updated"
+            } catch (e: Exception) { _error.value = e.message } finally { _loading.value = false }
+        }
+    }
+
+    fun updateAddresses(addresses: List<Address>) {
+        viewModelScope.launch {
+            _loading.value = true
+            _error.value = null; _success.value = null
+            try {
+                repo.updateProfile(UpdateProfileRequest(addresses = addresses))
+                _success.value = "Addresses updated"
             } catch (e: Exception) { _error.value = e.message } finally { _loading.value = false }
         }
     }

@@ -2,6 +2,7 @@ package com.gotourntravels.ui.screens.customer
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -43,13 +44,16 @@ fun SearchVehiclesScreen(navController: NavController, initialType: String) {
                 keyboardType = KeyboardType.Text
             )
             Spacer(Modifier.height(12.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("All" to "", "Scooter" to "scooter", "Bike" to "bike", "Car" to "car", "SUV" to "suv").forEach { (label, key) ->
-                    FilterChip(
-                        selected = type == key,
-                        onClick = { type = key; vm.setType(key.ifBlank { null }) },
-                        label = { Text(label) }
-                    )
+                    item(key) {
+                        FilterChip(
+                            selected = type == key,
+                            onClick = { type = key; vm.setType(key.ifBlank { null }) },
+                            label = { Text(label) },
+                            modifier = Modifier.heightIn(min = 40.dp)
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(12.dp))

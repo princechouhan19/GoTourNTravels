@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gotourntravels.datastore.UserPrefs
 import com.gotourntravels.models.User
-import com.gotourntravels.network.ApiException
 import com.gotourntravels.repository.GoTourRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -116,6 +115,22 @@ class AuthViewModel @Inject constructor(
             } catch (e: Exception) {
                 _state.value = UiState.Error(e.message ?: "Reset failed")
             }
+        }
+    }
+
+    fun bypassLogin(admin: Boolean) {
+        viewModelScope.launch {
+            val role = if (admin) "admin" else "customer"
+            val dummyUser = User(
+                id = "dummy_user_id",
+                name = "Demo Guest",
+                email = if (admin) "admin@gotourntravels.com" else "guest@gotourntravels.com",
+                phone = "+919000000000",
+                role = role,
+                isVerified = true
+            )
+            prefs.saveAuth("dummy_token", dummyUser)
+            _state.value = UiState.Success(dummyUser)
         }
     }
 

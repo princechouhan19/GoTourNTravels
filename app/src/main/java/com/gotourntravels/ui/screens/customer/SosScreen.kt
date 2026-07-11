@@ -3,6 +3,7 @@ package com.gotourntravels.ui.screens.customer
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +27,6 @@ import com.gotourntravels.location.LocationProvider
 import com.gotourntravels.ui.components.*
 import com.gotourntravels.ui.theme.*
 import com.gotourntravels.viewmodel.SosViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 fun SosScreen(navController: NavController) {
@@ -40,15 +40,12 @@ fun SosScreen(navController: NavController) {
     val locationProvider = remember { LocationProvider(ctx) }
     var type by remember { mutableStateOf("breakdown") }
     var description by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
     var lat by remember { mutableStateOf(24.5925) }
     var lng by remember { mutableStateOf(72.7156) }
 
     LaunchedEffect(Unit) {
-        scope.launch {
-            locationProvider.currentLocation()?.let {
-                lat = it.latitude; lng = it.longitude
-            }
+        runCatching { locationProvider.currentLocation() }.getOrNull()?.let {
+            lat = it.latitude; lng = it.longitude
         }
         vm.loadMine()
     }
@@ -90,9 +87,16 @@ fun SosScreen(navController: NavController) {
 
             Text("Type of emergency", fontWeight = FontWeight.SemiBold)
             Spacer(Modifier.height(8.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("accident" to "Accident", "breakdown" to "Breakdown", "medical" to "Medical", "safety" to "Safety").forEach { (k, l) ->
-                    FilterChip(selected = type == k, onClick = { type = k }, label = { Text(l) }, modifier = Modifier.weight(1f))
+                    item(k) {
+                        FilterChip(
+                            selected = type == k,
+                            onClick = { type = k },
+                            label = { Text(l) },
+                            modifier = Modifier.heightIn(min = 40.dp)
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(16.dp))

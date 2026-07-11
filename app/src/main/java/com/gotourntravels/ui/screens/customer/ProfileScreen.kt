@@ -71,9 +71,9 @@ fun ProfileScreen(navController: NavController) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp).verticalScroll(scroll)) {
             // Account
             ProfileGroup("Account") {
-                ProfileItem(Icons.Default.Person, "Edit Profile") { /* TODO */ }
-                ProfileItem(Icons.Default.Lock, "Change Password") { /* TODO */ }
-                ProfileItem(Icons.Default.Home, "Saved Addresses") { /* TODO */ }
+                ProfileItem(Icons.Default.Person, "Edit Profile") { navController.navigate(Dest.EditProfile.route) }
+                ProfileItem(Icons.Default.Lock, "Change Password") { navController.navigate(Dest.ChangePassword.route) }
+                ProfileItem(Icons.Default.Home, "Saved Addresses") { navController.navigate(Dest.SavedAddresses.route) }
                 ProfileItem(Icons.Default.ReceiptLong, "My Bookings") { navController.navigate(Dest.Bookings.route) }
                 ProfileItem(Icons.Default.Payment, "Payments & Invoices") { navController.navigate(Dest.Payments.route) }
             }

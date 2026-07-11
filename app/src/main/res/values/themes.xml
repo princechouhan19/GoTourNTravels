@@ -2,15 +2,15 @@
 <resources>
     <!-- Base theme -->
     <style name="Theme.GoTourNTravels" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/maroon</item>
+        <item name="android:statusBarColor">@color/cream</item>
         <item name="android:windowBackground">@color/cream</item>
     </style>
 
     <!-- Splash theme -->
     <style name="Theme.GoTourNTravels.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/maroon</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
-        <item name="windowSplashScreenAnimationDuration">800</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_pin</item>
+        <item name="windowSplashScreenAnimationDuration">250</item>
         <item name="postSplashScreenTheme">@style/Theme.GoTourNTravels</item>
     </style>
 </resources>

@@ -26,8 +26,8 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(Color(0xFF8B1E3F).toArgb(), Color(0xFF6B1530).toArgb()),
-            navigationBarStyle = SystemBarStyle.auto(Color(0xFF8B1E3F).toArgb(), Color(0xFF6B1530).toArgb())
+            statusBarStyle = SystemBarStyle.auto(Color(0xFFF8FAFC).toArgb(), Color(0xFF0B0F17).toArgb()),
+            navigationBarStyle = SystemBarStyle.auto(Color(0xFFF8FAFC).toArgb(), Color(0xFF0B0F17).toArgb())
         )
 
         setContent {

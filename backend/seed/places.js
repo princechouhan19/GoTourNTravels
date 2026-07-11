@@ -198,4 +198,39 @@ module.exports = [
     rating: 4.1,
     image: ''
   }
+  ,
+  // ---- Animal & Wildlife Assistance ----
+  {
+    name: 'Mount Abu Wildlife Sanctuary',
+    category: 'wildlife',
+    description: 'Protected Aravalli forest area. For an injured animal or dangerous wildlife sighting, keep a safe distance and contact emergency services or the Forest Department.',
+    lat: 24.6330,
+    lng: 72.7180,
+    address: 'Mount Abu Wildlife Sanctuary, Sirohi, Rajasthan 307501',
+    phone: '112',
+    rating: 4.5,
+    image: ''
+  },
+  {
+    name: 'Rajasthan Mobile Veterinary Service',
+    category: 'vet',
+    description: 'State veterinary assistance line. Confirm local coverage and availability before travelling with an animal.',
+    lat: 24.5925,
+    lng: 72.7156,
+    address: 'Mount Abu, Rajasthan 307501',
+    phone: '1962',
+    rating: 4.0,
+    image: ''
+  },
+  {
+    name: 'Animal Rescue Emergency',
+    category: 'animal_rescue',
+    description: 'Use the national emergency number to report an injured animal creating an immediate road or public-safety risk. Do not handle wildlife yourself.',
+    lat: 24.5925,
+    lng: 72.7156,
+    address: 'Mount Abu, Rajasthan 307501',
+    phone: '112',
+    rating: 4.0,
+    image: ''
+  }
 ];

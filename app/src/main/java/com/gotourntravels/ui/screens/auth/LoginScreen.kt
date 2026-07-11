@@ -109,6 +109,15 @@ fun LoginScreen(navController: NavController) {
                     if (isAdmin) vm.adminLogin(identifier, password) else vm.login(identifier, password)
                 }
             }
+            Spacer(Modifier.height(10.dp))
+            OutlinedButton(
+                onClick = { vm.bypassLogin(isAdmin) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = Maroon)
+            ) {
+                Text("Explore App (Demo Mode)", fontWeight = FontWeight.Bold)
+            }
             Spacer(Modifier.height(16.dp))
             if (!isAdmin) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {

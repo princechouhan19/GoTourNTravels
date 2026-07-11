@@ -46,22 +46,22 @@ fun HomeScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            Surface(color = MaterialTheme.colorScheme.primary, shadowElevation = 2.dp) {
+            Surface(color = MaterialTheme.colorScheme.surface, shadowElevation = 0.dp) {
                 Row(
                     modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Box(modifier = Modifier.size(40.dp).clip(CircleShape).background(Gold), contentAlignment = Alignment.Center) {
-                        Text("GT", color = Maroon, fontWeight = FontWeight.Bold)
+                    Box(modifier = Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary), contentAlignment = Alignment.Center) {
+                        Text("GT", color = MaterialTheme.colorScheme.onPrimary, fontWeight = FontWeight.Bold)
                     }
                     Spacer(Modifier.width(12.dp))
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Go Tour N Travels", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                        Text("Go Tour N Travels", color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                         Text("Mount Abu • Rajasthan", color = GoldLight, fontSize = 11.sp)
                     }
                     IconButton(onClick = { navController.navigate(Dest.Notifications.route) }) {
                         BadgedBox(badge = { }) {
-                            Icon(Icons.Default.Notifications, contentDescription = "Notifications", tint = Color.White)
+                            Icon(Icons.Default.Notifications, contentDescription = "Notifications", tint = MaterialTheme.colorScheme.onSurface)
                         }
                     }
                 }
@@ -89,7 +89,7 @@ fun HomeScreen(navController: NavController) {
                     OutlinedTextField(
                         value = "",
                         onValueChange = { navController.navigate(Dest.searchVehicles()) },
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().clickable { navController.navigate(Dest.searchVehicles()) },
                         placeholder = { Text("Search scooters, bikes, cars…", color = Color.White.copy(alpha = 0.7f)) },
                         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = Color.White) },
                         shape = RoundedCornerShape(24.dp),
@@ -152,9 +152,13 @@ fun HomeScreen(navController: NavController) {
                 // --- Featured ---
                 if (featured.isNotEmpty()) {
                     SectionHeader("Featured Rides", subtitle = "Hand-picked for your Mount Abu trip", action = "See all", onAction = { navController.navigate(Dest.searchVehicles()) })
-                    LazyRow(modifier = Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
                         items(featured.take(6)) { v ->
-                            VehicleCard(v) { navController.navigate(Dest.vehicleDetails(v.id)) }
+                            VehicleCard(v, modifier = Modifier.width(292.dp)) { navController.navigate(Dest.vehicleDetails(v.id)) }
                         }
                     }
                 }

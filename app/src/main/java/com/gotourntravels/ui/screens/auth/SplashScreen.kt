@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +30,7 @@ fun SplashScreen(navController: NavController) {
     val dest by vm.startDestination.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        delay(800)
+        delay(250)
         navController.navigate(dest) {
             popUpTo(Dest.Splash.route) { inclusive = true }
         }
@@ -37,22 +39,23 @@ fun SplashScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Brush.verticalGradient(listOf(Maroon, MaroonDark))),
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Box(
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(88.dp)
                     .clip(CircleShape)
-                    .background(Gold),
+                    .background(MaterialTheme.colorScheme.primary),
                 contentAlignment = Alignment.Center
             ) {
-                Text("GT", color = Maroon, fontSize = 40.sp, fontWeight = FontWeight.Bold)
+                Icon(Icons.Default.LocationOn, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(44.dp))
             }
-            Spacer(Modifier.height(16.dp))
-            Text("Go Tour N Travels", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
-            Text("Mount Abu • Rajasthan", color = GoldLight, fontSize = 12.sp, textAlign = TextAlign.Center)
+            Spacer(Modifier.height(20.dp))
+            Text("Go Tour N Travels", color = MaterialTheme.colorScheme.onBackground, fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
+            Spacer(Modifier.height(4.dp))
+            Text("Ride with confidence", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp, textAlign = TextAlign.Center)
         }
     }
 }

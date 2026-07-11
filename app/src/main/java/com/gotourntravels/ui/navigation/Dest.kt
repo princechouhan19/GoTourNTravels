@@ -15,6 +15,9 @@ sealed class Dest(val route: String) {
     data object Bookings : Dest("bookings")
     data object TouristMap : Dest("tourist-map")
     data object Profile : Dest("profile")
+    data object EditProfile : Dest("profile/edit")
+    data object ChangePassword : Dest("profile/password")
+    data object SavedAddresses : Dest("profile/addresses")
 
     // ---- Customer sub ----
     data object SearchVehicles : Dest("search-vehicles?type={type}")

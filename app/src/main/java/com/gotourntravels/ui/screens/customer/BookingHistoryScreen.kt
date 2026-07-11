@@ -32,7 +32,7 @@ fun BookingHistoryScreen(navController: NavController) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        GoTourTopBar(title = "My Bookings")
+        GoTourTopBar(title = "My Bookings", onBack = { navController.popBackStack() })
         TabRow(selectedTabIndex = if (tab == "active") 0 else 1, containerColor = MaterialTheme.colorScheme.surface) {
             Tab(selected = tab == "active", onClick = { tab = "active" }, text = { Text("Active (${active.size})") })
             Tab(selected = tab == "all", onClick = { tab = "all" }, text = { Text("All (${items.size})") })

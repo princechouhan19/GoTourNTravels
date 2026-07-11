@@ -215,7 +215,7 @@ The app ships in **mock mode** by default so it runs end-to-end without external
 | Service | Mock behaviour | How to enable real |
 |---------|----------------|--------------------|
 | Razorpay | `RAZORPAY_KEY_ID=rzp_test_placeholder` → backend returns `mock: true` orders that auto-verify | Set real test key in `backend/.env` and `app/build.gradle.kts` BuildConfig |
-| Cloudinary | Files saved to `backend/public/uploads/` and served via `/static` | Set `CLOUDINARY_CLOUD_NAME/API_KEY/API_SECRET` in `.env` |
+| ImageKit | Files saved to `backend/public/uploads/` and served via `/static` when ImageKit is not configured | Set `IMAGEKIT_PRIVATE_KEY` in `.env` to upload to ImageKit |
 | Google Maps | Map placeholder renders; POI list works without key | Add real `GOOGLE_MAPS_API_KEY` in `AndroidManifest.xml` |
 | Firebase FCM | App compiles; push doesn't arrive | Replace `app/google-services.json` with real Firebase project |
 | MongoDB | Uses local `mongodb://127.0.0.1:27017/gotourntravels` | Set `MONGO_URI` in `.env` to Atlas or production URI |

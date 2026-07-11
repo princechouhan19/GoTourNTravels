@@ -19,8 +19,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import com.gotourntravels.datastore.UserPrefs
 
-class ApiException(message: String) : Exception(message)
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
@@ -39,9 +37,15 @@ object NetworkModule {
             if (!resp.isSuccessful) {
                 val raw = resp.body?.string().orEmpty()
                 val msg = try {
-                    Gson().fromJson(raw, ApiError::class.java)?.message
+                    val errorDto = Gson().fromJson(raw, ApiError::class.java)
+                    errorDto?.message
                 } catch (_: Exception) { null } ?: "Request failed (${resp.code})"
-                throw ApiException(msg)
+                
+                android.util.Log.e("GoTourApi", "Request failed: $msg")
+                
+                // Throwing IOException is safer for OkHttp/Retrofit to handle
+                resp.close()
+                throw java.io.IOException(msg)
             }
             resp
         }
