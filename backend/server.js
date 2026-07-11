@@ -20,9 +20,12 @@ const io = new Server(server, {
 initSockets(io);
 app.set('io', io);
 
+const startKeepAlive = require('./utils/keepalive');
+
 server.listen(PORT, () => {
   logger.info(`Go Tour N Travels API running on port ${PORT}`);
   logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  startKeepAlive();
 });
 
 // Graceful shutdown

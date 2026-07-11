@@ -24,7 +24,7 @@ android {
         }
 
         // Backend URL — replace with production URL when deploying
-        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:5000/api/\"")
+        buildConfigField("String", "BASE_URL", "\"https://gotourntravels.onrender.com/api/\"")
         buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"PLACEHOLDER_MAPS_KEY\"")
         buildConfigField("String", "RAZORPAY_KEY_ID", "\"rzp_test_placeholder\"")
         buildConfigField("String", "BUSINESS_NAME", "\"Go Tour N Travels\"")
@@ -40,7 +40,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", "BASE_URL", "\"https://api.gotourntravels.com/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://gotourntravels.onrender.com/api/\"")
         }
         debug {
             versionNameSuffix = "-debug"
