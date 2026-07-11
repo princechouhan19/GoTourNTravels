@@ -27,8 +27,8 @@ const resetSchema = Joi.object({
 });
 
 router.post('/register', validate(registerSchema), asyncHandler(async (req, res) => {
-  const { user, otpDev, token } = await authService.register(req.body);
-  success(res, { user, token, otpDev }, 'Registered. Verify OTP to activate account.', 201);
+  const { user, token } = await authService.register(req.body);
+  success(res, { user, token }, 'Account created', 201);
 }));
 
 router.post('/login', validate(loginSchema), asyncHandler(async (req, res) => {

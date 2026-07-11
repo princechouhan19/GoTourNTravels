@@ -24,6 +24,8 @@ import com.gotourntravels.ui.components.GoTourTextField
 import com.gotourntravels.ui.components.PrimaryButton
 import com.gotourntravels.ui.navigation.Dest
 import com.gotourntravels.ui.theme.*
+import com.gotourntravels.network.dto.AuthResponse
+import com.gotourntravels.models.User
 import com.gotourntravels.viewmodel.AuthViewModel
 import com.gotourntravels.viewmodel.UiState
 
@@ -31,7 +33,6 @@ import com.gotourntravels.viewmodel.UiState
 fun LoginScreen(navController: NavController) {
     val vm: AuthViewModel = hiltViewModel()
     val state by vm.state.collectAsStateWithLifecycle()
-    val user by vm.user.collectAsStateWithLifecycle()
 
     var identifier by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -39,7 +40,12 @@ fun LoginScreen(navController: NavController) {
 
     LaunchedEffect(state) {
         if (state is UiState.Success) {
-            val u = user
+            val result = (state as UiState.Success).data
+            val u = when (result) {
+                is AuthResponse -> result.user
+                is User -> result
+                else -> null
+            }
             val dest = if (u?.role == "admin") Dest.AdminDashboard.route else Dest.CustomerHome.route
             navController.navigate(dest) { popUpTo(0) }
             vm.resetState()
@@ -110,15 +116,17 @@ fun LoginScreen(navController: NavController) {
                 }
             }
             Spacer(Modifier.height(10.dp))
-            OutlinedButton(
-                onClick = { vm.bypassLogin(isAdmin) },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Maroon)
-            ) {
-                Text("Explore App (Demo Mode)", fontWeight = FontWeight.Bold)
+            if (!isAdmin) {
+                OutlinedButton(
+                    onClick = { vm.bypassLogin(false) },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Maroon)
+                ) {
+                    Text("Explore App (Demo Mode)", fontWeight = FontWeight.Bold)
+                }
+                Spacer(Modifier.height(16.dp))
             }
-            Spacer(Modifier.height(16.dp))
             if (!isAdmin) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                     Text("Don't have an account?", color = MaterialTheme.colorScheme.onSurfaceVariant)

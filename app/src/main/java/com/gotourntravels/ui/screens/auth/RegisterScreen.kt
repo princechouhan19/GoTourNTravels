@@ -35,7 +35,7 @@ fun RegisterScreen(navController: NavController) {
     LaunchedEffect(state) {
         when (val s = state) {
             is UiState.Success -> {
-                navController.navigate(Dest.Otp.route) { popUpTo(Dest.Login.route) }
+                navController.navigate(Dest.CustomerHome.route) { popUpTo(Dest.Login.route) { inclusive = true } }
                 vm.resetState()
             }
             is UiState.Error -> error = s.message
