@@ -2,18 +2,13 @@ const User = require('../models/User');
 const { signToken } = require('../middleware/auth');
 const { AppError } = require('../utils/helpers');
 const otpService = require('./otpService');
-const logger = require('../utils/logger');
 
 const register = async ({ name, email, phone, password }) => {
   const exists = await User.findOne({ $or: [{ email }, { phone }] });
   if (exists) throw new AppError('User already exists with this email or phone', 409);
 
-  const user = await User.create({ name, email, phone, password });
-  // Generate OTP for verification
-  const otp = await otpService.generate(user._id, phone);
-  logger.info(`[DEV] OTP for ${phone}: ${otp}`);
-
-  return { user, otpDev: otp, token: signToken(user._id) };
+  const user = await User.create({ name, email, phone, password, isVerified: true });
+  return { user, token: signToken(user._id) };
 };
 
 const login = async ({ identifier, password }) => {
@@ -32,8 +27,9 @@ const login = async ({ identifier, password }) => {
   return { user, token: signToken(user._id) };
 };
 
-const adminLogin = async ({ email, password }) => {
-  const user = await User.findOne({ email, role: 'admin' }).select('+password');
+const adminLogin = async ({ email, identifier, password }) => {
+  const searchEmail = (email || identifier)?.toLowerCase();
+  const user = await User.findOne({ email: searchEmail, role: 'admin' }).select('+password');
   if (!user) throw new AppError('Admin not found', 404);
   const match = await user.matchPassword(password);
   if (!match) throw new AppError('Invalid admin credentials', 401);
