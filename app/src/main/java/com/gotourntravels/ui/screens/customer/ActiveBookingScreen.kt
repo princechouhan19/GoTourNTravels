@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.gotourntravels.ui.components.*
 import com.gotourntravels.ui.theme.*
 import com.gotourntravels.viewmodel.BookingViewModel
+import com.mappls.sdk.maps.geometry.LatLng
 
 @Composable
 fun ActiveBookingScreen(navController: NavController, bookingId: String) {
@@ -81,18 +82,27 @@ fun ActiveBookingScreen(navController: NavController, bookingId: String) {
             }
             Spacer(Modifier.height(16.dp))
 
-            // Live location card (mock — would integrate Google Maps in production)
-            Card(modifier = Modifier.fillMaxWidth().height(180.dp)) {
-                Box(
-                    modifier = Modifier.fillMaxSize().background(CreamDark),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(Icons.Default.MyLocation, contentDescription = null, tint = Maroon, modifier = Modifier.size(48.dp))
-                        Text("Live location tracking", fontWeight = FontWeight.SemiBold)
-                        Text("Foreground service running in background", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                }
+            // Mappls Live Location Map
+            Card(
+                modifier = Modifier.fillMaxWidth().height(180.dp),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                val mapLat = b.tracking.currentLat ?: b.pickupLocation?.lat ?: 24.5925
+                val mapLng = b.tracking.currentLng ?: b.pickupLocation?.lng ?: 72.7156
+                val center = LatLng(mapLat, mapLng)
+                val mapMarkers = listOf(
+                    com.gotourntravels.ui.components.MapMarker(
+                        position = center,
+                        title = b.vehicle?.name ?: "Your Rental Vehicle",
+                        snippet = "Live tracking location"
+                    )
+                )
+                com.gotourntravels.ui.components.MapplsMapView(
+                    center = center,
+                    zoom = 14.0,
+                    markers = mapMarkers,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
             Spacer(Modifier.height(16.dp))
 

@@ -1,5 +1,7 @@
 package com.gotourntravels.ui.screens.customer
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -18,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +40,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(navController: NavController) {
     val vm: HomeViewModel = hiltViewModel()
+    val context = LocalContext.current
     val featured by vm.featured.collectAsStateWithLifecycle()
     val allVehicles by vm.allVehicles.collectAsStateWithLifecycle()
     val ads by vm.ads.collectAsStateWithLifecycle()
@@ -48,7 +52,7 @@ fun HomeScreen(navController: NavController) {
         topBar = {
             Surface(color = MaterialTheme.colorScheme.surface, shadowElevation = 0.dp) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 16.dp, vertical = 12.dp),
+                    modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 16.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(modifier = Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary), contentAlignment = Alignment.Center) {
@@ -124,7 +128,10 @@ fun HomeScreen(navController: NavController) {
                         }
                     }
                     HorizontalPager(state = pager, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) { i ->
-                        BannerAdCard(ads[i])
+                        BannerAdCard(ads[i]) {
+                            vm.recordAdClick(ads[i].id)
+                            if (ads[i].actionUrl.isNotBlank()) context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ads[i].actionUrl)))
+                        }
                     }
                     Spacer(Modifier.height(8.dp))
                 }
@@ -204,9 +211,9 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-private fun BannerAdCard(ad: Advertisement) {
+private fun BannerAdCard(ad: Advertisement, onClick: () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth().height(150.dp).clip(RoundedCornerShape(14.dp)).background(MaterialTheme.colorScheme.surface)
+        modifier = Modifier.fillMaxWidth().height(150.dp).clip(RoundedCornerShape(14.dp)).clickable(onClick = onClick).background(MaterialTheme.colorScheme.surface)
     ) {
         AsyncImage(
             model = ad.imageUrl,

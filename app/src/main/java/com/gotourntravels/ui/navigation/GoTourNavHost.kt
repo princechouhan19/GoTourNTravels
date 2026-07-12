@@ -185,6 +185,7 @@ fun GoTourNavHost(startDestination: String) {
             // ---------- Admin ----------
             composable(Dest.AdminDashboard.route) { com.gotourntravels.ui.screens.admin.AdminDashboardScreen(navController) }
             composable(Dest.AdminVehicles.route) { com.gotourntravels.ui.screens.admin.VehicleManagementScreen(navController) }
+            composable(Dest.AdminLiveTracking.route) { com.gotourntravels.ui.screens.admin.LiveVehicleTrackingScreen(navController) }
             composable(Dest.AdminAddVehicle.route) { com.gotourntravels.ui.screens.admin.AddEditVehicleScreen(navController, null) }
             composable(
                 Dest.AdminEditVehicle.route,

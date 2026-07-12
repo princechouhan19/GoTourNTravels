@@ -10,7 +10,11 @@ router.get('/', protect, adminOnly, asyncHandler(async (req, res) => {
 }));
 
 router.get('/me', protect, asyncHandler(async (req, res) => {
-  const items = await SOSRequest.find({ user: req.user._id }).sort('-createdAt');
+  // Keep the response shape consistent with the admin endpoint and Android DTO.
+  const items = await SOSRequest.find({ user: req.user._id })
+    .populate('user', 'name phone email avatar')
+    .populate('booking', 'bookingNumber')
+    .sort('-createdAt');
   success(res, { items });
 }));
 

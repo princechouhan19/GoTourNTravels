@@ -21,6 +21,7 @@ import com.gotourntravels.ui.components.*
 import com.gotourntravels.ui.navigation.Dest
 import com.gotourntravels.ui.theme.*
 import com.gotourntravels.viewmodel.PlacesViewModel
+import com.mappls.sdk.maps.geometry.LatLng
 
 @Composable
 fun TouristMapScreen(navController: NavController) {
@@ -32,19 +33,25 @@ fun TouristMapScreen(navController: NavController) {
     Column(modifier = Modifier.fillMaxSize()) {
         GoTourTopBar(title = "Tourist Map — Mount Abu")
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-            // Map placeholder card
+            // Mappls Map
             Card(
                 modifier = Modifier.fillMaxWidth().height(220.dp),
-                colors = CardDefaults.cardColors(containerColor = CreamDark)
+                shape = RoundedCornerShape(12.dp)
             ) {
-                Box(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(12.dp)).background(CreamDark), contentAlignment = Alignment.Center) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(Icons.Default.Map, contentDescription = null, modifier = Modifier.size(56.dp), tint = Maroon)
-                        Spacer(Modifier.height(8.dp))
-                        Text("Mount Abu Map", fontWeight = FontWeight.Bold)
-                        Text("Plug in your Google Maps API key in AndroidManifest.xml\n<meta-data android:name=\"com.google.android.geo.API_KEY\" />", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-                    }
+                val center = LatLng(24.5925, 72.7078) // Nakki Lake (Mount Abu center)
+                val mapMarkers = items.map { place ->
+                    com.gotourntravels.ui.components.MapMarker(
+                        position = LatLng(place.lat, place.lng),
+                        title = place.name,
+                        snippet = "${place.rating}★ - ${place.address}"
+                    )
                 }
+                com.gotourntravels.ui.components.MapplsMapView(
+                    center = center,
+                    zoom = 12.0,
+                    markers = mapMarkers,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
             Spacer(Modifier.height(16.dp))
 

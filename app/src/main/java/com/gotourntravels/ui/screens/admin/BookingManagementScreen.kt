@@ -2,6 +2,7 @@ package com.gotourntravels.ui.screens.admin
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -33,9 +34,9 @@ fun BookingManagementScreen(navController: NavController) {
         GoTourTopBar(title = "Booking Management", onBack = { navController.popBackStack() })
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             // Filter chips
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("All" to null, "Pending" to "pending", "Confirmed" to "confirmed", "Active" to "active", "Completed" to "completed", "Cancelled" to "cancelled").forEach { (label, key) ->
-                    FilterChip(selected = statusFilter == key, onClick = { statusFilter = key; vm.load(key) }, label = { Text(label) })
+                    item { FilterChip(selected = statusFilter == key, onClick = { statusFilter = key; vm.load(key) }, label = { Text(label) }) }
                 }
             }
             Spacer(Modifier.height(12.dp))
@@ -63,6 +64,7 @@ fun BookingManagementScreen(navController: NavController) {
                                 b.user?.let { Text("${it.name} • ${it.phone}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                                 Text("${b.startDate.take(10)} → ${b.endDate.take(10)}", style = MaterialTheme.typography.bodySmall)
                                 Text("₹${b.pricing.total.toInt()}", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                                if (b.verification.idType != null) Text("ID: ${b.verification.idType.replace('_', ' ')} • ${b.verification.status.replace('_', ' ')}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
                                 // Admin actions
                                 if (b.id == selectedId && detail?.id == b.id) {

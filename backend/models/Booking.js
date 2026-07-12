@@ -20,6 +20,12 @@ const bookingSchema = new mongoose.Schema(
       lng: Number
     },
     withDriver: { type: Boolean, default: false },
+    verification: {
+      idType: { type: String, enum: ['driving_license', 'aadhaar'], default: null },
+      idImageUrl: { type: String, default: '' },
+      status: { type: String, enum: ['pending_office_check', 'verified', 'rejected'], default: 'pending_office_check' }
+    },
+    advanceAmount: { type: Number, default: 200 },
     // pricing breakdown
     pricing: {
       baseAmount: { type: Number, required: true },

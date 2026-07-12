@@ -174,6 +174,9 @@ interface GoTourApi {
     @DELETE("ads/{id}")
     suspend fun deleteAd(@Path("id") id: String): ApiSuccess<Map<String, Any>>
 
+    @POST("ads/{id}/click")
+    suspend fun recordAdClick(@Path("id") id: String): ApiSuccess<Map<String, Any>>
+
     // ---------- PLACES ----------
     @GET("places")
     suspend fun listPlaces(@Query("category") category: String? = null): ApiSuccess<Map<String, List<Place>>>

@@ -5,6 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
+    id("com.mappls.services.android")
 }
 
 android {
@@ -25,13 +26,11 @@ android {
 
         // Backend URL — replace with production URL when deploying
         buildConfigField("String", "BASE_URL", "\"https://gotourntravels.onrender.com/api/\"")
-        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"PLACEHOLDER_MAPS_KEY\"")
         buildConfigField("String", "RAZORPAY_KEY_ID", "\"rzp_test_placeholder\"")
         buildConfigField("String", "BUSINESS_NAME", "\"Go Tour N Travels\"")
         buildConfigField("String", "BUSINESS_PHONE", "\"+919000000000\"")
         buildConfigField("String", "SOS_EMERGENCY_PHONE", "\"112\"")
 
-        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = "PLACEHOLDER_MAPS_KEY"
         manifestPlaceholders["RAZORPAY_KEY_ID"] = "rzp_test_placeholder"
     }
 
@@ -118,10 +117,8 @@ dependencies {
     ksp("androidx.room:room-compiler:2.6.1")
 
     // Maps & Location
-    implementation("com.google.maps.android:maps-compose:4.3.3")
-    implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.google.android.gms:play-services-location:21.3.0")
-    implementation("com.google.android.libraries.places:places:3.5.0")
+    implementation("com.mappls.sdk:mappls-android-sdk:9.0.2")
 
     // Image loading
     implementation("io.coil-kt:coil-compose:2.6.0")

@@ -124,7 +124,7 @@ API surface:
 
 1. **Open** `TravelRide/` in Android Studio (Hedgehog or newer).
 2. Replace `app/google-services.json` with your real Firebase project file (or use the placeholder for local testing — FCM push won't work but the app compiles & runs).
-3. Add your Google Maps API key in `AndroidManifest.xml` `<meta-data android:name="com.google.android.geo.API_KEY" android:value="YOUR_KEY" />` (only needed for live map rendering; the rest of the app works without it).
+3. Configure your Mappls SDK credentials for the Android package before running map features (tourist discovery and live fleet tracking use Mappls).
 4. **Backend URL** is set in `app/build.gradle.kts` → `BASE_URL`. Default for emulator: `http://10.0.2.2:5000/api/`. For a real device, set your machine's LAN IP.
 5. **Build & Run** on any Android 8.0+ (API 26+) device.
 
@@ -216,7 +216,7 @@ The app ships in **mock mode** by default so it runs end-to-end without external
 |---------|----------------|--------------------|
 | Razorpay | `RAZORPAY_KEY_ID=rzp_test_placeholder` → backend returns `mock: true` orders that auto-verify | Set real test key in `backend/.env` and `app/build.gradle.kts` BuildConfig |
 | ImageKit | Files saved to `backend/public/uploads/` and served via `/static` when ImageKit is not configured | Set `IMAGEKIT_PRIVATE_KEY` in `.env` to upload to ImageKit |
-| Google Maps | Map placeholder renders; POI list works without key | Add real `GOOGLE_MAPS_API_KEY` in `AndroidManifest.xml` |
+| Mappls | Mappls Android SDK renders tourist and live-tracking maps | Configure the Mappls SDK credentials for your app package |
 | Firebase FCM | App compiles; push doesn't arrive | Replace `app/google-services.json` with real Firebase project |
 | MongoDB | Uses local `mongodb://127.0.0.1:27017/gotourntravels` | Set `MONGO_URI` in `.env` to Atlas or production URI |
 | OTP SMS | OTPs are logged to backend console (`[DEV] OTP for 91111…: 123456`) | Plug Twilio/MSG91 into `services/otpService.js` |
@@ -230,7 +230,7 @@ Before going live:
 - [ ] Replace placeholder `google-services.json` with production Firebase project
 - [ ] Add real Razorpay live key (after testing on test key)
 - [ ] Set `BASE_URL` in `app/build.gradle.kts` `release` buildType to production HTTPS URL
-- [ ] Add real Google Maps API key with package-restricted Android credentials
+- [ ] Configure production Mappls credentials with package-restricted Android access
 - [ ] Set `usesCleartextTraffic="false"` in `AndroidManifest.xml` (currently true for dev)
 - [ ] Configure Twilio / MSG91 in `otpService.js`
 - [ ] Move OTP store from in-memory to Redis (`otpService.js`)

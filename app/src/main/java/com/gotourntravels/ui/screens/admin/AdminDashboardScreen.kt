@@ -42,7 +42,7 @@ fun AdminDashboardScreen(navController: NavController) {
                 .fillMaxWidth()
                 .background(Brush.verticalGradient(listOf(Maroon, MaroonDark)))
                 .statusBarsPadding()
-                .padding(20.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Column {
                 Text("Admin Dashboard", color = Color.White, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineMedium)
@@ -72,6 +72,7 @@ fun AdminDashboardScreen(navController: NavController) {
 
                 // Quick actions
                 SectionHeader("Quick Actions")
+                AdminActionRow(Icons.Default.MyLocation, "Live Vehicle Tracking") { navController.navigate(Dest.AdminLiveTracking.route) }
                 AdminActionRow(Icons.Default.TwoWheeler, "Vehicles") { navController.navigate(Dest.AdminVehicles.route) }
                 AdminActionRow(Icons.Default.ReceiptLong, "Bookings") { navController.navigate(Dest.AdminBookings.route) }
                 AdminActionRow(Icons.Default.People, "Customers") { navController.navigate(Dest.AdminCustomers.route) }

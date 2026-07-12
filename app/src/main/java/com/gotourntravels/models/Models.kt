@@ -91,6 +91,8 @@ data class Booking(
     val pickupLocation: Location? = null,
     val dropLocation: Location? = null,
     val withDriver: Boolean = false,
+    val verification: Verification = Verification(),
+    val advanceAmount: Int = 200,
     val pricing: Pricing = Pricing(),
     val status: String = "pending",
     val paymentStatus: String = "pending",
@@ -121,6 +123,7 @@ data class Pricing(
     val refundableDeposit: Double = 0.0,
     val durationHours: Int = 0
 )
+data class Verification(val idType: String? = null, val idImageUrl: String = "", val status: String = "pending_office_check")
 
 data class Tracking(
     val startedAt: String? = null,

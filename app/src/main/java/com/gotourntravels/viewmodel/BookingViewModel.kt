@@ -142,6 +142,8 @@ class BookingViewModel @Inject constructor(private val repo: GoTourRepository) :
         pickupLat: Double? = null,
         pickupLng: Double? = null,
         pickupAddress: String = ""
+        ,idType: String? = null,
+        idImageUrl: String = ""
     ) {
         viewModelScope.launch {
             _loading.value = true
@@ -154,6 +156,8 @@ class BookingViewModel @Inject constructor(private val repo: GoTourRepository) :
                     endDate = endDateIso,
                     withDriver = withDriver,
                     customerNotes = notes,
+                    idType = idType,
+                    idImageUrl = idImageUrl,
                     pickupLocation = if (pickupLat != null && pickupLng != null)
                         com.gotourntravels.models.Location(address = pickupAddress, lat = pickupLat, lng = pickupLng) else null
                 )

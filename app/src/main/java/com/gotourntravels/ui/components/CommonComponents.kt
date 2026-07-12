@@ -32,7 +32,7 @@ fun GoTourTopBar(
 ) {
     Surface(color = MaterialTheme.colorScheme.surface, shadowElevation = 0.dp) {
         Row(
-            modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 16.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (onBack != null) {

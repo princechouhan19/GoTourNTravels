@@ -113,6 +113,7 @@ class GoTourRepository @Inject constructor(
     suspend fun createAd(body: Advertisement) = api.createAd(body).data
     suspend fun updateAd(id: String, body: Advertisement) = api.updateAd(id, body).data
     suspend fun deleteAd(id: String) = api.deleteAd(id).data
+    suspend fun recordAdClick(id: String) = api.recordAdClick(id).data
 
     // ---------- PLACES ----------
     suspend fun listPlaces(category: String? = null): List<Place> =
@@ -120,7 +121,14 @@ class GoTourRepository @Inject constructor(
 
     // ---------- UPLOAD ----------
     suspend fun uploadImage(file: File): UploadResponse {
-        val req = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val mime = when (file.extension.lowercase()) {
+            "png" -> "image/png"
+            "webp" -> "image/webp"
+            "gif" -> "image/gif"
+            "pdf" -> "application/pdf"
+            else -> "image/jpeg"
+        }
+        val req = file.asRequestBody(mime.toMediaTypeOrNull())
         val part = MultipartBody.Part.createFormData("file", file.name, req)
         return api.uploadImage(part).data
     }

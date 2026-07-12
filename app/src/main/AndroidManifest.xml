@@ -58,11 +58,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Google Maps API key - replace placeholder with real key from Google Cloud Console -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${GOOGLE_MAPS_API_KEY}" />
-
         <!-- Razorpay -->
         <meta-data
             android:name="com.razorpay.ApiKey"

@@ -3,8 +3,8 @@ const { asyncHandler, success } = require('../utils/helpers');
 
 /**
  * Returns nearby Points of Interest around Mount Abu.
- * In production this proxies Google Places API; here we return a static
- * curated dataset (see seed/places.js) so the app works without a Maps key.
+ * Curated points with verified coordinates for Mappls map views and turn-by-turn
+ * handoff. The mobile client opens each coordinate as a real map destination.
  */
 router.get('/', asyncHandler(async (req, res) => {
   const { category } = req.query;

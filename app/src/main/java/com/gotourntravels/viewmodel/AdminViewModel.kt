@@ -100,6 +100,14 @@ class AdminViewModel @Inject constructor(private val repo: GoTourRepository) : V
         viewModelScope.launch { try { repo.deleteAd(id); loadAds() } catch (e: Exception) { _error.value = e.message } }
     }
 
+    fun uploadAdImage(file: java.io.File, onSuccess: (String) -> Unit) {
+        viewModelScope.launch {
+            _loading.value = true
+            try { onSuccess(repo.uploadImage(file).url) } catch (e: Exception) { _error.value = e.message ?: "Image upload failed" }
+            finally { _loading.value = false }
+        }
+    }
+
     fun loadBusiness() {
         viewModelScope.launch { try { _business.value = repo.getBusiness() } catch (e: Exception) { _error.value = e.message } }
     }

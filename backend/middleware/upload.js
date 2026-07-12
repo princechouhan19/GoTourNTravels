@@ -16,9 +16,15 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowed = /jpeg|jpg|png|webp|gif|pdf/;
-  const okExt = allowed.test(path.extname(file.originalname).toLowerCase());
-  const okMime = allowed.test(file.mimetype);
+  // Android content providers may report a generic MIME type even for a valid PNG/JPEG.
+  // Trust a known extension in that case, but never accept an unknown extension.
+  const allowedExtensions = new Set(['.jpeg', '.jpg', '.png', '.webp', '.gif', '.pdf']);
+  const allowedMimes = new Set([
+    'image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif',
+    'application/pdf', 'application/octet-stream'
+  ]);
+  const okExt = allowedExtensions.has(path.extname(file.originalname).toLowerCase());
+  const okMime = allowedMimes.has((file.mimetype || '').toLowerCase());
   if (okExt && okMime) cb(null, true);
   else cb(new AppError('Only images and PDF files are allowed', 400));
 };

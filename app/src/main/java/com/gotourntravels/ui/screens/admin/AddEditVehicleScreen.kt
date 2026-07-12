@@ -274,7 +274,13 @@ fun AddEditVehicleScreen(navController: NavController, vehicleId: String?) {
 fun uriToFile(context: Context, uri: Uri): File? {
     return try {
         val inputStream = context.contentResolver.openInputStream(uri) ?: return null
-        val tempFile = File.createTempFile("upload_", ".jpg", context.cacheDir)
+        val extension = when (context.contentResolver.getType(uri)?.lowercase()) {
+            "image/png" -> ".png"
+            "image/webp" -> ".webp"
+            "image/gif" -> ".gif"
+            else -> ".jpg"
+        }
+        val tempFile = File.createTempFile("upload_", extension, context.cacheDir)
         tempFile.deleteOnExit()
         tempFile.outputStream().use { output ->
             inputStream.use { input ->

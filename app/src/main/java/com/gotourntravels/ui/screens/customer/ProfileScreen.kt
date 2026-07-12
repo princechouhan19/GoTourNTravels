@@ -1,5 +1,8 @@
 package com.gotourntravels.ui.screens.customer
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +31,8 @@ import com.gotourntravels.ui.navigation.Dest
 import com.gotourntravels.ui.theme.*
 import com.gotourntravels.viewmodel.AuthViewModel
 import com.gotourntravels.viewmodel.ProfileViewModel
+import com.gotourntravels.ui.screens.admin.uriToFile
+import coil.compose.AsyncImage
 
 @Composable
 fun ProfileScreen(navController: NavController) {
@@ -34,6 +40,8 @@ fun ProfileScreen(navController: NavController) {
     val vm: ProfileViewModel = hiltViewModel()
     val user by authVm.user.collectAsStateWithLifecycle()
     val dark by authVm.darkMode.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val photoLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? -> uri?.let { uriToFile(context, it)?.let(vm::uploadAvatar) } }
 
     LaunchedEffect(Unit) { vm.refresh() }
 
@@ -49,17 +57,16 @@ fun ProfileScreen(navController: NavController) {
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(
-                    modifier = Modifier.size(72.dp).clip(CircleShape).background(Gold),
+                    modifier = Modifier.size(72.dp).clip(CircleShape).background(Gold).clickable { photoLauncher.launch("image/*") },
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        user?.name?.take(2)?.uppercase() ?: "GT",
-                        color = Maroon, fontWeight = FontWeight.Bold, fontSize = 24.sp
-                    )
+                    if (user?.avatar?.isNotBlank() == true) AsyncImage(user!!.avatar, "Profile photo", Modifier.fillMaxSize())
+                    else Text(user?.name?.take(2)?.uppercase() ?: "GT", color = Maroon, fontWeight = FontWeight.Bold, fontSize = 24.sp)
                 }
                 Spacer(Modifier.height(8.dp))
                 Text(user?.name ?: "Guest", color = Color.White, fontWeight = FontWeight.Bold)
                 Text(user?.email ?: "", color = GoldLight, fontSize = 12.sp)
+                Text("Tap photo to change", color = Color.White.copy(alpha = .8f), fontSize = 10.sp)
                 if (user?.isVerified == true) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Default.Verified, contentDescription = null, tint = Gold, modifier = Modifier.size(12.dp))

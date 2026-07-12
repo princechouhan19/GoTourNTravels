@@ -40,6 +40,7 @@ sealed class Dest(val route: String) {
     // ---- Admin ----
     data object AdminDashboard : Dest("admin-dashboard")
     data object AdminVehicles : Dest("admin-vehicles")
+    data object AdminLiveTracking : Dest("admin-live-tracking")
     data object AdminAddVehicle : Dest("admin-vehicles/new")
     data object AdminEditVehicle : Dest("admin-vehicles/edit/{id}")
     data object AdminBookings : Dest("admin-bookings")

@@ -69,6 +69,19 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun uploadAvatar(file: java.io.File) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+                val url = repo.uploadImage(file).url
+                val current = user.value ?: return@launch
+                repo.updateProfile(UpdateProfileRequest(name = current.name, email = current.email, phone = current.phone, avatar = url))
+                _success.value = "Profile photo updated"
+            } catch (e: Exception) { _error.value = e.message ?: "Photo upload failed" }
+            finally { _loading.value = false }
+        }
+    }
+
     fun logout() = viewModelScope.launch { repo.logout() }
     fun setDarkMode(value: Boolean) = viewModelScope.launch { prefs.setDarkMode(value) }
 }

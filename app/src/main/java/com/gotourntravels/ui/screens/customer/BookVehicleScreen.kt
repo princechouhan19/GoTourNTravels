@@ -1,5 +1,8 @@
 package com.gotourntravels.ui.screens.customer
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +24,7 @@ import com.gotourntravels.ui.navigation.Dest
 import com.gotourntravels.ui.theme.*
 import com.gotourntravels.viewmodel.BookingViewModel
 import com.gotourntravels.viewmodel.VehiclesViewModel
+import com.gotourntravels.ui.screens.admin.uriToFile
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,6 +54,12 @@ fun BookVehicleScreen(navController: NavController, vehicleId: String) {
     var notes by remember { mutableStateOf("") }
     var showStartPicker by remember { mutableStateOf(false) }
     var showEndPicker by remember { mutableStateOf(false) }
+    var idType by remember { mutableStateOf("driving_license") }
+    var idImageUrl by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val idLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uriToFile(context, uri ?: return@rememberLauncherForActivityResult)?.let { file -> vehiclesVm.uploadVehicleImage(file) { idImageUrl = it } }
+    }
 
     val v = vehicle
     val isoFmt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply { timeZone = TimeZone.getTimeZone("UTC") }
@@ -106,6 +117,19 @@ fun BookVehicleScreen(navController: NavController, vehicleId: String) {
                 Spacer(Modifier.height(16.dp))
             }
 
+            Text("Office verification", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            Text("Bring the original ID to the Go Tour N Travels office at pickup.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.height(8.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(idType == "driving_license", { idType = "driving_license" }, { Text("Driving licence") })
+                FilterChip(idType == "aadhaar", { idType = "aadhaar" }, { Text("Aadhaar card") })
+            }
+            Spacer(Modifier.height(8.dp))
+            OutlinedButton(onClick = { idLauncher.launch("image/*") }, modifier = Modifier.fillMaxWidth()) {
+                Icon(Icons.Default.Upload, null); Spacer(Modifier.width(8.dp)); Text(if (idImageUrl.isBlank()) "Upload ID image" else "ID image uploaded ✓")
+            }
+            Spacer(Modifier.height(16.dp))
+
             Text("Notes (optional)", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
             Spacer(Modifier.height(8.dp))
             OutlinedTextField(value = notes, onValueChange = { notes = it }, modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp), placeholder = { Text("Any special requests…") })
@@ -139,14 +163,16 @@ fun BookVehicleScreen(navController: NavController, vehicleId: String) {
                 Text(it, color = Red, style = MaterialTheme.typography.bodySmall)
                 Spacer(Modifier.height(8.dp))
             }
-            PrimaryButton("Confirm Booking", isLoading = loading) {
+            PrimaryButton("Pay ₹200 & reserve", isLoading = loading, enabled = idImageUrl.isNotBlank()) {
                 bookingVm.create(
                     vehicleId = v.id,
                     rentalType = rentalType,
                     startDateIso = isoFmt.format(Date(startDate)),
                     endDateIso = isoFmt.format(Date(endDate)),
                     withDriver = withDriver,
-                    notes = notes
+                    notes = notes,
+                    idType = idType,
+                    idImageUrl = idImageUrl
                 )
             }
             Spacer(Modifier.height(16.dp))

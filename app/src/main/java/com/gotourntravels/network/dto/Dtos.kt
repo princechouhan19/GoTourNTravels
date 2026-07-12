@@ -40,6 +40,8 @@ data class CreateBookingRequest(
     val dropLocation: com.gotourntravels.models.Location? = null,
     val withDriver: Boolean = false,
     val customerNotes: String = "",
+    val idType: String? = null,
+    val idImageUrl: String = "",
     val couponCode: String = ""
 )
 

@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.os.Build
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.mappls.sdk.maps.Mappls
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ class GoTourApp : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        Mappls.getInstance(this)
         createNotificationChannels()
     }
 

@@ -91,6 +91,12 @@ const createBooking = async (user, payload) => {
     pickupLocation: payload.pickupLocation || vehicle.location,
     dropLocation: payload.dropLocation,
     withDriver: payload.withDriver ?? vehicle.withDriver,
+    verification: {
+      idType: payload.idType || null,
+      idImageUrl: payload.idImageUrl || '',
+      status: 'pending_office_check'
+    },
+    advanceAmount: 200,
     pricing,
     couponCode: payload.couponCode || '',
     customerNotes: payload.customerNotes || '',

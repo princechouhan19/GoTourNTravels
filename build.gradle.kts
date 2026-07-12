@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://maven.mappls.com/repository/mappls/") }
+    }
+    dependencies {
+        classpath("com.mappls.services:mappls-services:1.0.1")
+    }
+}
+
 // Top-level project build file
 plugins {
     id("com.android.application") version "8.5.0" apply false

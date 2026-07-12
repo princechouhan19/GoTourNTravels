@@ -99,14 +99,8 @@ class HomeViewModel @Inject constructor(private val repo: GoTourRepository) : Vi
                         description = "Maruti Swift - comfortable Hatchback, perfect for a small family."
                     )
                 )
-                _ads.value = listOf(
-                    Advertisement(
-                        id = "mock_ad_1",
-                        title = "Explore Mount Abu",
-                        subtitle = "Get flat 15% off on your first booking!",
-                        imageUrl = "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=500&auto=format&fit=crop&q=60"
-                    )
-                )
+                // Ads are admin-managed content; never show an offline mock banner.
+                _ads.value = emptyList()
                 _business.value = BusinessSettings(
                     name = "Go Tour N Travels",
                     phone = "+91 90012 34567",
@@ -118,4 +112,6 @@ class HomeViewModel @Inject constructor(private val repo: GoTourRepository) : Vi
             }
         }
     }
+
+    fun recordAdClick(id: String) = viewModelScope.launch { runCatching { repo.recordAdClick(id) } }
 }
